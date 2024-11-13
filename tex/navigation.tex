@@ -1,0 +1,101 @@
+\documentclass[dvipsnames,crop=true]{standalone}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{calc,external,3d}
+\begin{document}
+
+  \tikzsetnextfilename{navigation}
+
+  \def\yl{0.5cm}
+  \def\zl{0.9cm}
+  \def\x{({cos(0)*1cm},{sin(0)*1cm})}
+  \def\y{({cos(45)*\yl},{sin(45)*\yl})}
+  \def\z{({cos(90)*\zl}, {sin(90)*\zl})}
+  \begin{tikzpicture}[scale=2.5,
+                      line width=0.5pt,
+                      x={(\x)},y={(\y)},z={(\z)}
+                      ]
+    \tikzstyle{every node}=[font=\small]
+
+
+    \newcommand{\cube}[3]{
+    \foreach \z in {0, 1}{
+      \draw (#1, #2, {#3+\z}) -- ({#1+1}, #2, {#3+\z}) -- ({#1+1}, {#2+1}, {#3+\z}) -- (#1, {#2+1}, {#3+\z}) -- cycle;
+    }
+    \foreach \x in {0, 1}{
+      \draw ({#1+\x}, #2, #3) -- ({#1+\x}, {#2+1}, #3) -- ({#1+\x}, {#2+1}, {#3+1}) -- ({#1+\x}, #2, {#3+1}) -- cycle;
+    }
+    }
+
+    \cube{0}{0}{0}
+    \cube{0}{1}{0}
+    \cube{0}{0}{1}
+    \cube{0}{1}{1}
+
+    \cube{1}{0}{0}
+    \cube{1}{1}{0}
+    \cube{1}{1}{1}
+
+    \begin{scope}[canvas is yz plane at x=1]
+      \draw[opacity=0.5,fill=Red] (0, 1) rectangle (1, 2);
+      \coordinate (h1) at (0.5, 1.5);
+      \draw[fill=gray] (h1) circle (1pt);
+      \node[Red,anchor=south east] at (0, 1.0) {$p_\text{AD}$};
+    \end{scope}
+    \begin{scope}[canvas is xy plane at z=1]
+      \draw[opacity=0.5,fill=LimeGreen] (1, 0) rectangle (2, 1);
+      \coordinate (h2) at (1.5, 0.5);
+      \draw[fill=gray] (h2) circle (1pt);
+      \node[LimeGreen,right] at (2, 0) {$p_\text{DH}$};
+
+      \coordinate (c1) at (1.3, 0.3);
+      \draw[fill=gray,fill opacity=0.4] (c1) circle (2pt);
+    \end{scope}
+    \begin{scope}[canvas is xz plane at y=1]
+      \draw[opacity=0.5,fill=Cyan] (1, 1) rectangle (2, 2);
+      \coordinate (h3) at (1.5, 1.5);
+      \draw[fill=gray] (h3) circle (1pt);
+      \node[Cyan,right] at (2, 2) {$p_\text{CD}$};
+      \coordinate (c2) at (1.7, 1.3);
+      \draw[fill=gray,fill opacity=0.4] (c2) circle (2pt);
+    \end{scope}
+
+    \begin{scope}[canvas is xy plane at z=2]
+      \node[transform shape,gray] at (0.5,0.5) {\footnotesize A};
+      \node[transform shape,gray] at (0.5,1.5) {\footnotesize B};
+      \node[transform shape,gray] at (1.5,1.5) {\footnotesize C};
+      \node[transform shape,gray] at (1.5,0.5) {\footnotesize D};
+    \end{scope}
+
+    \begin{scope}[canvas is xy plane at z=0]
+      \node[transform shape,gray] at (0.5,0.5) {\footnotesize E};
+      \node[transform shape,gray] at (0.5,1.5) {\footnotesize F};
+      \node[transform shape,gray] at (1.5,1.5) {\footnotesize G};
+      \node[transform shape,gray] at (1.5,0.5) {\footnotesize H};
+    \end{scope}
+
+    \draw [<->] ($(h1) - (0.3, 0, 0)$) -- ($(h1) + (0.3, 0, 0)$);
+    \draw [<->] ($(h2) - (0, 0, 0.3)$) -- ($(h2) + (0, 0, 0.3)$);
+    \draw [<->] ($(h3) - (0, 0.3, 0)$) -- ($(h3) + (0, 0.3, 0)$);
+
+
+    \cube{1}{0}{1}
+
+    \coordinate (c0) at (-0.3, 0.5, 0.4);
+    \coordinate (c3) at (2.5, 1.9, 1.9);
+
+    \draw[->,line width=1pt] (c0) %
+      to [out=0,in=-110] (c1) %
+      to [out=70,in=-160] (c2) %
+      to[out=20,in=180] (c3);
+
+
+    \begin{scope}[shift={(-0.4,-0.1,-0.1)}]
+      \draw[->] (0, 0, 0) -- (0.5, 0, 0) node[right] {$x$};
+      \draw[->] (0, 0, 0) -- (0, 0.5, 0) node[above] {$y$};
+      \draw[->] (0, 0, 0) -- (0, 0, 0.5) node[above] {$z$};
+    \end{scope}
+
+  \end{tikzpicture}
+
+\end{document}

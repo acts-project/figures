@@ -1,0 +1,57 @@
+\documentclass[dvipsnames,crop=true]{standalone}
+\usepackage{tikz}
+\usepackage{currfile}
+\usetikzlibrary{calc,external,3d}
+\begin{document}
+
+  \tikzsetnextfilename{merge}
+
+  \begin{tikzpicture}[scale=0.5,line width=1pt]
+
+
+  \input{\currfiledir _common.tex}
+
+  \begin{scope}[scale=1,x={(30:0.5cm)},y={(90:0.9cm)},z={(-10:1cm)}]
+        % \draw[->] (2,2,0) --++ (0,0,-1);
+        % \draw[->] (6,2,0) --++ (0,0,-1);
+
+        \begin{scope}[canvas is xy plane at z={0}]
+            \begin{scope}[fill opacity=0.6]
+                \filldraw[draw=Cyan,fill=Cyan!50] (0,0) circle(1.5);
+                \filldraw[draw=LimeGreen,fill=LimeGreen!50,even odd rule] (0,0) circle(3) (0,0) circle(1.5);
+                % \filldraw[draw=Cyan,fill=Cyan!50] (0,0) rectangle ++(4,4);
+                % \filldraw[draw=LimeGreen,fill=LimeGreen!50] (4,0) rectangle ++(4,4);
+            \end{scope}
+        \end{scope}
+
+        \draw[->] (0,0,0) --++ (0,0,1.5);
+        \draw[->] (2.25,0,0) --++ (0,0,1.5);
+        \fill (0,0,0) circle (2pt);
+        \fill (2.25,0,0) circle (2pt);
+
+        \draw[->] (3.3cm,0cm) --++ (1cm,0) node[midway,above] {Merge};
+
+        \begin{scope}[shift={(7cm,0)}]
+            % \draw[->] (2,2,0) --++ (0,0,-1);
+            % \draw[->] (6,2,0) --++ (0,0,-1);
+
+            \begin{scope}[canvas is xy plane at z={0}]
+                \begin{scope}[fill opacity=0.6]
+                    % \filldraw[draw=Orange,fill=Orange!50] (0,0) rectangle ++(8,4);
+                    \filldraw[draw=Orange,fill=Orange!50] (0,0) circle(3);
+                \end{scope}
+                % \draw[dashed] (4,0) -- (4,4);
+                \draw[dashed] (0,0) circle(1.5);
+            \end{scope}
+
+            \draw[->] (0,0,0) --++ (0,0,1.5);
+            \draw[->] (2.25,0,0) --++ (0,0,1.5);
+            \fill (0,0,0) circle (2pt);
+            \fill (2.25,0,0) circle (2pt);
+        \end{scope}
+  \end{scope}
+
+
+  \end{tikzpicture}
+
+\end{document}

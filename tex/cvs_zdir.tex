@@ -1,0 +1,84 @@
+\documentclass[dvipsnames,crop=true]{standalone}
+\usepackage{tikz}
+\usepackage{currfile}
+\usetikzlibrary{calc,external,3d}
+\begin{document}
+
+  \tikzsetnextfilename{cvs_zdir}
+
+  \begin{tikzpicture}[scale=1.0,line width=1pt]
+
+
+  \input{\currfiledir _common.tex}
+
+  \begin{scope}[scale=1,x={(30:0.5cm)},y={(90:0.9cm)},z={(-10:1cm)}]
+
+
+    \cylbg{2}{1.3}
+    \cyl{0}{2}{0.2}{1.5}
+
+    \cylbg{5}{1.5}
+    \cyl{3}{5}{1.0}{2.0}
+
+    \cylbg{8}{1.5}
+    \cyl{6.5}{8}{0.5}{1.5}
+
+    \node at (-3,-2,4) {Initial};
+
+    \begin{scope}[shift={(10cm,0)}]
+        \cylbg{2}{1.3}
+        \cyl{0}{2}{0.2}{2.0}
+
+        \begin{cylenv}[Orange]
+            \cylbg{3}{1.5}
+            \cyl{2}{3}{0.2}{2.0}
+        \end{cylenv}
+
+        \cylbg{5}{1.5}
+        \cyl{3}{5}{0.2}{2.0}
+
+        \begin{cylenv}[Orange]
+            \cylbg{5}{1.5}
+            \cyl{5}{6.5}{0.2}{2.0}
+        \end{cylenv}
+
+        \cylbg{8}{1.5}
+        \cyl{6.5}{8}{0.2}{2.0}
+
+        \node at (-3,-2,4) {Strategy: \textbf{Gap}};
+    \end{scope}
+
+    \begin{scope}[shift={(0,-6cm)}]
+        \cylbg{2.5}{1.3}
+        \cyl{0}{2.5}{0.2}{2.0}
+        \cylbg{5}{1.5}
+        \cyl{2.5}{5.75}{0.2}{2.0}
+        \cylbg{8}{1.5}
+        \cyl{5.75}{8}{0.2}{2.0}
+
+        \node at (-3,-2,4) {Strategy: \textbf{Midpoint}};
+    \end{scope}
+
+    \begin{scope}[shift={(10cm,-6cm)}]
+        \cylbg{3}{1.3}
+        \cyl{0}{3}{0.2}{2.0}
+        \cylbg{6.5}{1.5}
+        \cyl{3}{6.5}{0.2}{2.0}
+        \cylbg{8}{1.5}
+        \cyl{6.5}{8}{0.2}{2.0}
+
+        \node at (-3,-2,4) {Strategy: \textbf{First} (alt. Second)};
+    \end{scope}
+
+    \begin{scope}[shift={(-10,0,4)}]
+    \draw[->] (0,0,0) --++ (1,0,0) node[at end,above] {$x$};
+    \draw[->] (0,0,0) --++ (0,1,0) node[at end,above] {$y$};
+    \draw[->] (0,0,0) --++ (0,0,1) node[at end,above] {$z$};
+    \end{scope}
+
+  \end{scope}
+
+
+  \end{tikzpicture}
+
+\end{document}

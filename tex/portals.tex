@@ -1,0 +1,79 @@
+\documentclass[dvipsnames,crop=true]{standalone}
+\usepackage{tikz}
+\usepackage{currfile}
+\usetikzlibrary{calc,external,3d}
+\begin{document}
+
+  \tikzsetnextfilename{portals}
+
+  \begin{tikzpicture}[scale=1.0,line width=1pt]
+
+
+  \input{\currfiledir _common.tex}
+
+  \begin{scope}[scale=1,x={(30:0.5cm)},y={(90:0.9cm)},z={(-10:1cm)}]
+
+
+    \cylbg{2}{1.3}
+    \cyl{0}{2}{0.2}{2.0}
+
+    \begin{cylenv}[Orange]
+        \cylbg{3}{1.5}
+        \cyl{2}{3}{0.2}{2.0}
+    \end{cylenv}
+
+    \cylbg{5}{1.5}
+    \cyl{3}{5}{0.2}{2.0}
+
+    \begin{cylenv}[Orange]
+        \cylbg{5}{1.5}
+        \cyl{5}{6.5}{0.2}{2.0}
+    \end{cylenv}
+
+    \cylbg{8}{1.5}
+    \cyl{6.5}{8}{0.2}{2.0}
+
+
+    % \begin{scope}[shift={(-10,0,4)}]
+    % \draw[->] (0,0,0) --++ (1,0,0) node[at end,above] {$x$};
+    % \draw[->] (0,0,0) --++ (0,1,0) node[at end,above] {$y$};
+    % \draw[->] (0,0,0) --++ (0,0,1) node[at end,above] {$z$};
+    % \end{scope}
+
+    \foreach \z/\n in {1/Volume 1,2.5/Gap 1,4/Volume 2,5.75/Gap 2,7.25/Volume 3} {
+        \begin{scope}[canvas is xy plane at z={\z}]
+            \draw[->] (0,2.0) --++ (0,-0.5cm) node[at end,left] {in};
+        \end{scope}
+        \begin{scope}[canvas is zy plane at x={-2}]
+            \node[transform shape] at (\z,0) {\small \n};
+        \end{scope}
+        \fill (0,2.0,\z) circle (2pt);
+    }
+
+    \draw[|-] (0,-2.5,0) -- (0,-2.5,2);
+    \draw[|-] (0,-2.5,2) -- (0,-2.5,3);
+    \draw[|-] (0,-2.5,3) -- (0,-2.5,5);
+    \draw[|-] (0,-2.5,5) -- (0,-2.5,6.5);
+    \draw[|-|] (0,-2.5,6.5) -- (0,-2.5,8) 
+        % node[at end,below,anchor=north east] {Single binned cylinder portal}
+        ;
+
+    % \begin{scope}[canvas is zy plane at x={-2.5}]
+    % \node[transform shape] at (4,-2.5) {Single binned cylinder portal};
+    % \end{scope}
+
+    \foreach \z in {2,3,5,6.5} {
+        \fill (0,0,\z) circle (2pt);
+        \draw[<->] (0,0,\z) ++ (0,0,-0.4) --++ (0,0,0.8);
+    }
+
+    \draw[->] (0,2,4) --++ (0,1cm) node[at end,above] {out};
+
+    
+
+  \end{scope}
+
+
+  \end{tikzpicture}
+
+\end{document}

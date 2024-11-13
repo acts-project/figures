@@ -1,0 +1,73 @@
+\def\cylcolor{Cyan}
+\def\outlinecolor{\cylcolor!50!black}
+\def\covercolor{\cylcolor!30}
+\def\diskcolor{\cylcolor!10!white}
+\def\innercolor{\cylcolor!50!white}
+
+\newenvironment{cylenv}[1][Cyan]{%
+    \def\cylcolorprev{\cylcolor}
+    \def\cylcolor{#1}
+}{%
+    \def\cylcolor{\cylcolorprev}
+}
+
+\newcommand{\cylbg}[2]{
+    \def\ro{#2}
+    \def\aa{67}
+    \def\ab{-113}
+    \def\zf{#1}
+
+    \begin{scope}[canvas is xy plane at z={\zf}]
+      \fill[\innercolor] (0,0) circle({\ro});
+    %   \draw (\ab:\ro) arc(\ab:\aa:\ro);
+    %   \draw[] (0,0) circle(\ri);
+    \end{scope}
+}
+
+\newcommand{\cyl}[4]{
+    \def\ro{#4}
+    \def\ri{#3}
+    \def\aa{67}
+    \def\ab{-113}
+    \def\zb{#1}
+    \def\zf{#2}
+
+    \begin{scope}[canvas is xy plane at z={\zf}]
+      \fill[\diskcolor, even odd rule] (0,0) circle({\ro}) (0,0) circle({\ri});
+      \draw[\outlinecolor] (\ab:\ro) arc(\ab:\aa:\ro);
+      \draw[\outlinecolor] (0,0) circle(\ri);
+    \end{scope}
+
+
+    \fill[\covercolor,draw=\outlinecolor] 
+         ({cos(\aa)*\ro},{sin(\aa)*\ro},\zb)
+      -- ({cos(\aa)*\ro},{sin(\aa)*\ro},\zf)
+         arc(\aa:{\ab+360}:\ro)
+      -- ({cos(\ab)*\ro},{sin(\ab)*\ro},\zb)
+         arc({\ab+360}:{\aa}:\ro)
+    ;
+
+    \begin{scope}[canvas is xy plane at z={\zb}]
+      \draw[dashed,\outlinecolor] (\ab:\ro) arc(\ab:\aa:\ro);
+    \end{scope}
+
+
+    \draw[\outlinecolor] 
+         ({cos(\aa)*\ro},{sin(\aa)*\ro},\zb)
+      -- ({cos(\aa)*\ro},{sin(\aa)*\ro},\zf)
+         arc(\aa:{\ab+360}:\ro)
+      -- ({cos(\ab)*\ro},{sin(\ab)*\ro},\zb)
+         arc({\ab+360}:{\aa}:\ro)
+    ;
+
+
+    % \begin{scope}
+    %   \clip
+    %       ({cos(\aa)*\ro},{sin(\aa)*\ro},\zb)
+    %     -- ({cos(\aa)*\ro},{sin(\aa)*\ro},\zf)
+    %       arc(\aa:{\ab+360}:\ro)
+    %     -- ({cos(\ab)*\ro},{sin(\ab)*\ro},\zb)
+    %       arc({\ab+360}:{\aa}:\ro)
+    %   ;
+    % \end{scope}
+}
