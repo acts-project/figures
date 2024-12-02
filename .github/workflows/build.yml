@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_figures:
+    runs-on: ubuntu-latest
+    container: kjarosh/latex:2024.4-small
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apk add make pdf2svg --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+          tlmgr install latexmk standalone svn-prov pgfplots
+
+      - name: Build figures
+        run: make -j$(nproc)
+
