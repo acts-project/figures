@@ -31,4 +31,4 @@ jobs:
           path: output
 
       - run: |
-          echo "Browse at: https://acts-herald.app.cern.ch/view/acts-project/figures/${{ steps.upload-artifact-step.artifact-id }}/"
+          echo "Browse at: https://acts-herald.app.cern.ch/view/acts-project/figures/${{ steps.upload-artifact-step.outputs.artifact-id }}/" | tee $GITHUB_STEP_SUMMARY
