@@ -6,31 +6,31 @@ PDF_OUTPUT_DIR = $(OUTPUT_DIR)/pdf
 SVG_OUTPUT_DIR = $(OUTPUT_DIR)/svg
 BUILD_DIR = $(ROOT_DIR)/build
 
-# List of .tex files in the TEX_DIR that do not start with an underscore
-TEX_FILES := $(wildcard $(TEX_DIR)/*.tex)
-TEX_FILES := $(filter-out $(TEX_DIR)/_%.tex, $(TEX_FILES))
+# Find all .tex files in TEX_DIR and its subdirectories, excluding those starting with an underscore
+TEX_FILES := $(shell find $(TEX_DIR) -type f -name '*.tex' ! -name '_*.tex')
 PDF_FILES := $(patsubst $(TEX_DIR)/%.tex, $(PDF_OUTPUT_DIR)/%.pdf, $(TEX_FILES))
 SVG_FILES := $(patsubst $(TEX_DIR)/%.tex, $(SVG_OUTPUT_DIR)/%.svg, $(TEX_FILES))
+BUILD_FILES := $(patsubst $(TEX_DIR)/%.tex, $(BUILD_DIR)/%.aux, $(TEX_FILES)) # Example of intermediate files
 
-# Latex compilation command with BUILD_DIR for intermediate files
-LATEXMK = latexmk -cd -pdf -shell-escape -outdir=$(BUILD_DIR) -auxdir=$(BUILD_DIR)
+# Latex compilation command
+LATEXMK = latexmk -cd -pdf -shell-escape
 
 # Rule to compile all .tex files to .pdf and .svg
 all: $(PDF_FILES) $(SVG_FILES)
 
-# Individual PDF file compilation, moving final PDF to PDF_OUTPUT_DIR
+# Rule for compiling PDFs, preserving subdirectory structure
 $(PDF_OUTPUT_DIR)/%.pdf: $(TEX_DIR)/%.tex
-	@mkdir -p $(PDF_OUTPUT_DIR) $(BUILD_DIR)
-	$(LATEXMK) $<
-	@mv $(BUILD_DIR)/$*.pdf $(PDF_OUTPUT_DIR)/
+	@mkdir -p $(dir $@) $(BUILD_DIR)/$(dir $*)
+	$(LATEXMK) -outdir=$(BUILD_DIR)/$(dir $*) $<
+	@mv $(BUILD_DIR)/$*.pdf $@
 
-# Convert each PDF to SVG using pdf2svg, placing SVGs in SVG_OUTPUT_DIR
+# Rule for converting PDFs to SVGs, preserving subdirectory structure
 $(SVG_OUTPUT_DIR)/%.svg: $(PDF_OUTPUT_DIR)/%.pdf
-	@mkdir -p $(SVG_OUTPUT_DIR)
+	@mkdir -p $(dir $@)
 	pdf2svg $< $@
 
 # Clean command to remove generated files in OUTPUT_DIR and BUILD_DIR
 clean:
-	rm -rf $(OUTPUT_DIR)/* $(BUILD_DIR)/*
+	rm -rf $(OUTPUT_DIR) $(BUILD_DIR)
 
 .PHONY: all clean
