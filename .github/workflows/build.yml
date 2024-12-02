@@ -25,6 +25,10 @@ jobs:
         run: make -j$(nproc)
 
       - uses: actions/upload-artifact@v4
+        id: upload-artifact-step
         with:
           name: figures
           path: output
+
+      - run: |
+          echo "Browse at: https://acts-herald.app.cern.ch/view/acts-project/figures/${{ steps.upload-artifact-step.artifact-id }}/"
