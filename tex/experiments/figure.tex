@@ -1,5 +1,6 @@
 \documentclass[lualatex]{standalone}
 
+\usepackage{svg}
 \usepackage{pgfplots}
 \usepackage{tikz}
 % \usetikzlibrary{calc,external,decorations,decorations.pathmorphing,intersections,arrows,backgrounds,positioning,arrows.meta,decorations.text,backgrounds,shapes.geometric,positioning,fit,3d,pgfplots.colormaps,intersections,tikzmark}
@@ -12,7 +13,7 @@
 
     \begin{tikzpicture}[line width=2pt]
       \def\l{4cm}
-      \node (acts) {\includegraphics[width=3cm]{assets/logo_acts.pdf}};
+      \node (acts) {\includesvg[width=3cm]{assets/acts_logo_colored.svg}};
       \draw[<->] (acts) --++(120:\l) node[above] {\includegraphics[width=1.5cm]{assets/experiments/ldmx.png}};
       \draw[<->] (acts) --++(45:\l) node[above right] {\includegraphics[width=1.5cm]{assets/experiments/alice.png}};
       \draw[<->] (acts) --++(80:\l) node[above] {\includegraphics[width=1.5cm]{assets/experiments/cms.pdf}};
